@@ -16,14 +16,11 @@ def main():
 
     while True:
         user_input = input("> ").strip()
-
         if user_input.lower() in ["exit", "خروج", "quit"]:
             print("تم إغلاق JulaQ. مع السلامة!")
             break
-
         if not user_input:
             continue
-
         print("استلمت الأمر: " + user_input)
         print("(قيد التطوير...)")
 

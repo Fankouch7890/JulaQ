@@ -2,3 +2,6 @@ httpx
 python-dotenv
 langchain
 langgraph
+langchain-community
+langchain-openai
+pydantic

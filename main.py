@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 
-# تحميل المتغيرات البيئية
 load_dotenv()
 
 def main():
@@ -13,7 +12,9 @@ def main():
     print("✅ جاهز تكامل Fabric")
     print("✅ الوكيل جاهز للعمل")
     print()
-    print(    while True:
+    print("اكتب أمرك (أو exit للخروج):")
+
+    while True:
         user_input = input("> ").strip()
 
         if user_input.lower() in ["exit", "خروج", "quit"]:
@@ -23,8 +24,8 @@ def main():
         if not user_input:
             continue
 
-        print(f"استلمت الأمر: {user_input}")
-        print("(قيد التطوير... سيتم ربطه بـ LangGraph و Fabric قريباً)")
+        print("استلمت الأمر: " + user_input)
+        print("(قيد التطوير...)")
 
 if __name__ == "__main__":
-    main()"اكتب أمرك (أو 'exit' للخروج):")
+    main()

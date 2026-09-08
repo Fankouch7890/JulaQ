@@ -2,7 +2,10 @@ import asyncio
 import pytest
 
 import tools.fabric.robot_control as rc
-from tools.fabric.robot_control import control_fabric_robot_structured
+from tools.fabric.robot_control import (
+    control_fabric_robot_structured,
+    RobotController,
+)
 
 
 @pytest.mark.asyncio
@@ -60,3 +63,25 @@ async def test_wrapper_returns_text():
 
     msg = await rc.control_fabric_robot("r42", "stop", None)
     assert "تم تنفيذ الأمر بنجاح على الروبوت r42" in msg
+
+
+@pytest.mark.asyncio
+async def test_robot_controller_methods():
+    class FakeClient:
+        async def send_action(self, robot_id, action, params):
+            return {"robot": robot_id, "action": action, "params": params}
+
+    client = FakeClient()
+    controller = RobotController(fabric_client=client)
+
+    res_move = await controller.move("r100", direction="left", speed=2.0, distance=5.0)
+    assert res_move["success"] is True
+    assert res_move["result"] == {"robot": "r100", "action": "move", "params": {"direction": "left", "speed": 2.0, "distance": 5.0}}
+
+    res_stop = await controller.stop("r100")
+    assert res_stop["success"] is True
+    assert res_stop["result"]["action"] == "stop"
+
+    res_status = await controller.get_status("r100")
+    assert res_status["success"] is True
+    assert res_status["result"]["action"] == "get_status"

@@ -20,6 +20,57 @@ def _get_fabric_client() -> FabricClient:
     return _fabric
 
 
+class RobotController:
+    """
+    متحكم الروبوتات الخاص بشبكة Fabric.
+    يوفر واجهة برمجية موحدة وكائنية للتحكم بالروبوتات وإرسال الأوامر واستعلام حالاتها.
+    """
+
+    def __init__(self, fabric_client: Optional[FabricClient] = None):
+        self.client = fabric_client or _get_fabric_client()
+
+    async def send_action(
+        self,
+        robot_id: str,
+        action: str,
+        params: Optional[Dict[str, Any]] = None,
+        timeout: float = 10.0,
+        retries: int = 0,
+        raise_on_error: bool = False,
+    ) -> Dict[str, Any]:
+        """إرسال أمر إلى روبوت معالَج عبر control_fabric_robot_structured."""
+        return await control_fabric_robot_structured(
+            robot_id=robot_id,
+            action=action,
+            params=params,
+            fabric_client=self.client,
+            timeout=timeout,
+            retries=retries,
+            raise_on_error=raise_on_error,
+        )
+
+    async def move(
+        self,
+        robot_id: str,
+        direction: str = "forward",
+        speed: float = 1.0,
+        distance: Optional[float] = None,
+    ) -> Dict[str, Any]:
+        """تحريك الروبوت بالاتجاه والسرعة والمسافة المحصورة."""
+        params = {"direction": direction, "speed": speed}
+        if distance is not None:
+            params["distance"] = distance
+        return await self.send_action(robot_id, "move", params)
+
+    async def stop(self, robot_id: str) -> Dict[str, Any]:
+        """إيقاف الروبوت بشكل فوري."""
+        return await self.send_action(robot_id, "stop")
+
+    async def get_status(self, robot_id: str) -> Dict[str, Any]:
+        """جلب حالة الروبوت الحالية."""
+        return await self.send_action(robot_id, "get_status")
+
+
 async def control_fabric_robot_structured(
     robot_id: str,
     action: str,

@@ -20,7 +20,7 @@ def _get_fabric_client() -> FabricClient:
     return _fabric
 
 
-async def control_fabric_robot(
+async def control_fabric_robot_structured(
     robot_id: str,
     action: str,
     params: Optional[Dict[str, Any]] = None,
@@ -111,3 +111,17 @@ async def control_fabric_robot(
         "result": None,
         "error": error_msg,
     }
+
+
+# Backwards-compatible wrapper that preserves the original simple string return
+async def control_fabric_robot(robot_id: str, action: str, params: dict = None) -> str:
+    """
+    Backwards-compatible wrapper around control_fabric_robot_structured.
+
+    This matches the original simple API and returns Arabic text like the
+    previous implementation so existing callers don't break immediately.
+    """
+    structured = await control_fabric_robot_structured(robot_id, action, params)
+    if structured.get("success"):
+        return f"تم تنفيذ الأمر بنجاح على الروبوت {robot_id}: {structured.get('result')}"
+    return f"حدث خطأ أثناء التواصل مع Fabric: {structured.get('error')}"

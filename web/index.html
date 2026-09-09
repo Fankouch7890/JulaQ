@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JulaQ AI Agent | لوحة التحكم والأتمتة الصناعية</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation Header -->
+        <header class="top-header">
+            <div class="logo-section">
+                <div class="logo-badge">🤖 JulaQ</div>
+                <div class="logo-title">
+                    <h1>نظام جولاق الذكي للتحكم بالروبوتات</h1>
+                    <span class="subtitle">شبكة Fabric والأتمتة الصناعية</span>
+                </div>
+            </div>
+            <div class="status-pills">
+                <div class="pill active">
+                    <span class="dot"></span>
+                    النظام متصل
+                </div>
+                <div class="pill">
+                    <span class="icon">🤖</span>
+                    <span id="active-robots-count">4 روبوتات نشطة</span>
+                </div>
+                <div class="pill">
+                    <span class="icon">⚡</span>
+                    استجابة الذكاء الاصطناعي: ممتازة
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Content Grid -->
+        <main class="dashboard-grid">
+
+            <!-- Left Column: Fleet Management & Factory Visualizer -->
+            <section class="left-column">
+
+                <!-- Fleet Cards -->
+                <div class="card fleet-card">
+                    <div class="card-header">
+                        <h2>📊 أسطول الروبوتات الميداني</h2>
+                        <button class="btn btn-sm btn-outline" id="refresh-robots-btn">🔄 تحديث</button>
+                    </div>
+                    <div class="robots-grid" id="robots-container">
+                        <!-- Dynamically populated -->
+                        <div class="loading-spinner">جاري تحميل الروبوتات...</div>
+                    </div>
+                </div>
+
+                <!-- 2D Factory Floor Visualizer -->
+                <div class="card visualizer-card">
+                    <div class="card-header">
+                        <h2>🗺️ الخريطة التفاعلية لأرضية المصنع</h2>
+                        <span class="badge badge-info">Fabric Live Grid</span>
+                    </div>
+                    <div class="floor-canvas-container">
+                        <div class="floor-grid-overlay"></div>
+                        <div id="factory-floor" class="factory-floor">
+                            <!-- Robot Markers will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Control Panel -->
+                <div class="card control-card">
+                    <div class="card-header">
+                        <h2>🎮 وحدة التحكم المباشر بالروبوت</h2>
+                    </div>
+                    <div class="control-form">
+                        <div class="form-group">
+                            <label for="robot-select">اختر الروبوت:</label>
+                            <select id="robot-select" class="form-select">
+                                <option value="robot_1">الروبوت 1 (robot_1)</option>
+                                <option value="robot_2">الروبوت 2 (robot_2)</option>
+                                <option value="robot_3">الروبوت 3 (robot_3)</option>
+                                <option value="robot_4">الروبوت 4 (robot_4)</option>
+                            </select>
+                        </div>
+                        <div class="control-buttons">
+                            <button class="btn btn-success" id="cmd-move">▶️ تحريك (Move)</button>
+                            <button class="btn btn-warning" id="cmd-stop">⏸️ إيقاف (Stop)</button>
+                            <button class="btn btn-info" id="cmd-status">ℹ️ تحديث الحالة</button>
+                            <button class="btn btn-danger" id="cmd-emergency">🚨 إيقاف طوارئ</button>
+                        </div>
+                    </div>
+                    <div id="control-feedback" class="control-feedback hidden"></div>
+                </div>
+
+            </section>
+
+            <!-- Right Column: AI Assistant Chat -->
+            <section class="right-column">
+                <div class="card chat-card">
+                    <div class="card-header chat-header">
+                        <div class="ai-avatar">💬</div>
+                        <div>
+                            <h2>مساعد JulaQ الذكي</h2>
+                            <span class="status-sub">أدخل أوامرك باللغة العربية للتحكم الفوري</span>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages Log -->
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message system-message">
+                            <div class="msg-bubble">
+                                أهلاً بك! أنا **JulaQ**، مساعدك الذكي للأتمتة الصناعية. كيف يمكنني مساعدتك اليوم؟ يمكنك كتابة أمر مثل: "حرك robot_1" أو "ما هي حالة الروبوتات؟".
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Suggestions -->
+                    <div class="quick-prompts">
+                        <button class="prompt-chip" data-cmd="حرك robot_1">▶️ حرك robot_1</button>
+                        <button class="prompt-chip" data-cmd="أوقف robot_2">⏸️ أوقف robot_2</button>
+                        <button class="prompt-chip" data-cmd="حالة robot_3">ℹ️ حالة robot_3</button>
+                    </div>
+
+                    <!-- Chat Input Box -->
+                    <form class="chat-input-container" id="chat-form">
+                        <input type="text" id="chat-input" class="chat-input" placeholder="اكتب أمرك هنا..." autocomplete="off">
+                        <button type="submit" class="btn btn-primary send-btn">إرسال 🚀</button>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

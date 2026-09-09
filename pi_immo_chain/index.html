@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi ImmoChain Tunisia - السوق العقاري اللامركزي في تونس</title>
+    <!-- Pi Network SDK -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-building-circle-check text-pi"></i>
+                <span class="logo-text">Pi ImmoChain <span class="flag-tn">🇹🇳 Tunisia</span></span>
+            </div>
+            <div class="user-profile" id="userProfile">
+                <button class="btn btn-pi" id="loginBtn">
+                    <i class="fa-solid fa-wallet"></i> تسجل عبر Pi Wallet
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>السوق العقاري اللامركزي الأول في تونس 🇹🇳</h1>
+            <p>بيع، شراء، واستئجار العقارات بسهولة وأمان باستخدام عملة <strong>Pi Network</strong>.</p>
+            <div class="hero-actions">
+                <button class="btn btn-primary" id="addPropertyBtn">
+                    <i class="fa-solid fa-plus-circle"></i> أضف عقارك للبيع/للكراء
+                </button>
+                <a href="#listings" class="btn btn-outline">
+                    <i class="fa-solid fa-magnifying-glass"></i> تصفح العقارات
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Controls -->
+    <section class="filters-section" id="listings">
+        <div class="container">
+            <div class="filter-card">
+                <div class="filter-group">
+                    <label><i class="fa-solid fa-location-dot"></i> المدينة / الولاية</label>
+                    <select id="cityFilter">
+                        <option value="all">كل الولايـات</option>
+                        <option value="تونس العاصمة">تونس العاصمة</option>
+                        <option value="سوسة">سوسة (Sousse)</option>
+                        <option value="الحمامات">الحمامات (Hammamet)</option>
+                        <option value="صفاقس">صفاقس (Sfax)</option>
+                        <option value="جربة">جربة (Djerba)</option>
+                        <option value="بنزرت">بنزرت (Bizerte)</option>
+                        <option value="المنستير">المنستير (Monastir)</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label><i class="fa-solid fa-house"></i> نوع العقار</label>
+                    <select id="typeFilter">
+                        <option value="all">جميع الأنواع</option>
+                        <option value="شقة">شقة (Apartment)</option>
+                        <option value="فيلا">فيلا (Villa)</option>
+                        <option value="أرض">أرض بناء (Land)</option>
+                        <option value="محل تجاري">محل تجاري (Commercial)</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label><i class="fa-solid fa-handshake"></i> المعاملة</label>
+                    <select id="actionFilter">
+                        <option value="all">بيع / كراء</option>
+                        <option value="للبيع">للبيع (Sale)</option>
+                        <option value="للكراء">للكراء (Rent)</option>
+                    </select>
+                </div>
+
+                <div class="filter-group search-btn-group">
+                    <button class="btn btn-secondary" id="searchBtn">
+                        <i class="fa-solid fa-filter"></i> تصفية
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Listings Grid -->
+    <section class="listings-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>العقارات المتاحة لشبكة Pi</h2>
+                <span class="badge badge-pi" id="propertyCount">0 عقار</span>
+            </div>
+            <div class="properties-grid" id="propertiesGrid">
+                <!-- Dynamic Property Cards will be rendered here via app.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Property Detail -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeDetailModal">&times;</button>
+            <div id="modalDetailBody">
+                <!-- Property Details populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add Property -->
+    <div class="modal-overlay" id="addPropertyModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeAddModal">&times;</button>
+            <h3><i class="fa-solid fa-file-circle-plus text-pi"></i> إضافة عقار جديد في تونس</h3>
+            <form id="addPropertyForm">
+                <div class="form-group">
+                    <label>عنوان العقار</label>
+                    <input type="text" id="propTitle" placeholder="مثال: شقة فاخرة للبيع بالنصر 2" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>الولاية / المدينة</label>
+                        <select id="propCity" required>
+                            <option value="تونس العاصمة">تونس العاصمة</option>
+                            <option value="سوسة">سوسة</option>
+                            <option value="الحمامات">الحمامات</option>
+                            <option value="صفاقس">صفاقس</option>
+                            <option value="جربة">جربة</option>
+                            <option value="بنزرت">بنزرت</option>
+                            <option value="المنستير">المنستير</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>نوع العقار</label>
+                        <select id="propType" required>
+                            <option value="شقة">شقة</option>
+                            <option value="فيلا">فيلا</option>
+                            <option value="أرض">أرض</option>
+                            <option value="محل تجاري">محل تجاري</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>نوع المعاملة</label>
+                        <select id="propAction" required>
+                            <option value="للبيع">للبيع</option>
+                            <option value="للكراء">للكراء</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>السعر بعملة Pi (π)</label>
+                        <input type="number" id="propPrice" step="0.1" placeholder="مثال: 150" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>رابط صورة العقار (Image URL)</label>
+                    <input type="url" id="propImage" placeholder="https://..." required>
+                </div>
+                <div class="form-group">
+                    <label>وصف العقار والتفاصيل</label>
+                    <textarea id="propDescription" rows="4" placeholder="المساحة، عدد الغرف، الطابق، سند الملكية..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> نشر العقار في Pi ImmoChain
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p><strong>Pi ImmoChain Tunisia</strong> &copy; 2026 — منصة العقارات اللامركزية التونسية لشبكة Pi Network.</p>
+            <p class="text-muted"><small>متوافق مع Pi Browser SDK v2.0</small></p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
